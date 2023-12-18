@@ -7,16 +7,21 @@ using UnityEngine.EventSystems;
 public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Image image;
-    public Transform draggedParent;
+    public Image dragImage;
     [HideInInspector] public Transform parentAfterDrag;
+    private Vector3 beforeDragPos;
     private int indexAfterDrag;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         parentAfterDrag = transform.parent;
         indexAfterDrag = transform.GetSiblingIndex();
-        transform.SetParent(draggedParent);
-        image.raycastTarget = false;
+        beforeDragPos = transform.position;
+
+
+        dragImage.raycastTarget = false;
+        dragImage.enabled = true;
+        image.enabled = false;
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -28,6 +33,10 @@ public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         transform.SetParent(parentAfterDrag);
         transform.SetSiblingIndex(indexAfterDrag);
-        image.raycastTarget = true;
+        transform.position = beforeDragPos;
+
+        dragImage.raycastTarget = true;
+        dragImage.enabled = false;
+        image.enabled = true;
     }
 }
