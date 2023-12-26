@@ -9,7 +9,7 @@ public class Card : MonoBehaviour
     public delegate void CardPlayed();
     public static event CardPlayed OnCardPlayed;
     public Color32 color;
-    public Plant_Base plant;
+    public Card_Base card;
     //Card is desrtroyed when played, send out event saying card was played
     void OnDestroy() 
     {
@@ -23,8 +23,8 @@ public class Card : MonoBehaviour
 
     void Start()
     {
-        plant = Systems.Instance.ResourceSystem.GetRandomPlant();
-        color = plant.color;
+        card = Systems.Instance.ResourceSystem.GetRandomCard();
+        color = card.HexColor;
         image.color = color;
     }
 }

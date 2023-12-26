@@ -8,6 +8,8 @@ using UnityEngine;
 public class Card_Base : ScriptableObject
 {
     public Type Type;
+    public CardColor CardColor;
+    public Color32 HexColor;
     public Image CardImage;
 }
 
@@ -15,4 +17,11 @@ public class Card_Base : ScriptableObject
 public enum Type {
     Plant = 0,
     Utility = 1
+}
+public enum CardColor {
+    None,
+    Yellow,
+    Blue,
+    Red,
+    Rusty
 }

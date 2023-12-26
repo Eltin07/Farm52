@@ -5,12 +5,15 @@ using System.Linq;
 
 public class ResourceSystem : MonoBehaviour
 {
-    public List<Plant_Base> Plants {get; private set; }
+    public List<Card_Base> Cards {get; private set; }
+    public List<Shape_Base> Shapes { get; private set; }
 
     void Awake()
     {
-        Plants = Resources.LoadAll<Plant_Base>("Plants").ToList();
+        Cards = Resources.LoadAll<Card_Base>("Cards").ToList();
+        Shapes = Resources.LoadAll<Shape_Base>("Shapes").ToList();
     }
 
-    public Plant_Base GetRandomPlant() => Plants[Random.Range(0, Plants.Count)];
+    public Card_Base GetRandomCard() => Cards[Random.Range(0, Cards.Count)];
+    public Shape_Base GetRandomShape() => Shapes[Random.Range(0, Shapes.Count)];
 }

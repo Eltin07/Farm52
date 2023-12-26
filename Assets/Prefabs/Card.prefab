@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9094565725802059706}
   m_Layer: 0
   m_Name: Card
-  m_TagString: Untagged
+  m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
   color:
     serializedVersion: 2
     rgba: 0
-  plant: {fileID: 0}
+  card: {fileID: 0}
 --- !u!1 &3849474822743108666
 GameObject:
   m_ObjectHideFlags: 0
