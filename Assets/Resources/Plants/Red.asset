@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3ad50eb5b548e64594f8600128d9b0f, type: 3}
   m_Name: Red
   m_EditorClassIdentifier: 
-  color:
+  Color:
     serializedVersion: 2
-    rgba: 4282071551
+    rgba: 4280164059
+  PlantType: 3
+  TurnsToGrow: 0
+  GrowthStages: 0
+  GrowthImages:
+  - {fileID: 21300000, guid: 5889a0999c2e88c4aaa5b8c6415d7f80, type: 3}
+  - {fileID: 7482667652216324306, guid: 124d2fdd4a904c649bb49783271e9802, type: 3}

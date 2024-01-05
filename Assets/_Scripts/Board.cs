@@ -8,6 +8,7 @@ public class Board : MonoBehaviour
     public GameObject SlotFillBase;
     public List<BoardSlot> Slots;
     public BoardGroups GroupManager;
+    public CropManager CropManager;
 
     public int gridHeight = 7;
     public int gridWidth  = 6;
@@ -16,6 +17,7 @@ public class Board : MonoBehaviour
     void Start()
     {
         GroupManager = gameObject.GetComponent<BoardGroups>();
+        CropManager = gameObject.GetComponent<CropManager>();
         grid = new int[gridWidth, gridHeight];
         GetChildren();
         PopulateGrid();
@@ -44,5 +46,10 @@ public class Board : MonoBehaviour
                 y++;
             }
         }
+    }
+
+    public BoardSlot GetSlotById(int id)
+    {
+        return transform.GetChild(id).GetComponent<BoardSlot>();
     }
 }

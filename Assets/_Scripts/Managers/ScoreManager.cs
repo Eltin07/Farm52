@@ -8,9 +8,12 @@ public class ScoreManager : MonoBehaviour
     public int BlueScore;
     public int RedScore;
 
-    public void AddHarvestScore(int count, CardColor color)
+    public int DeadPlants;
+
+    public void AddHarvestScore(Group crop)
     {
-        switch(color)
+        int count = crop.Slots.Count;
+        switch(crop.Color)
         {
             case CardColor.Yellow:
                 YellowScore += count;
@@ -25,4 +28,13 @@ public class ScoreManager : MonoBehaviour
                 break;
         }
     }
+
+    public void AddDeadPlants()
+    {
+        DeadPlants++;
+
+        if (DeadPlants >= 5)
+            GameManager.Instance.UpdateGameState(GameState.GameOver);
+    }
+
 }

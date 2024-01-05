@@ -18,50 +18,12 @@ public class BoardGroups : MonoBehaviour
         Board = gameObject.GetComponentInParent<Board>();
     }
 
-    public void AddToGroup(BoardSlot slot, List<int> adjSlots)
-    {
-        List<Group> matchingGroups = new List<Group>();
-        //Get all matching groups
-        foreach(var group in Groups)
-        {
-            for(int i = 0; i < adjSlots.Count; i++)
-            {
-                if (group.Slots.Contains(adjSlots[i]))
-                {
-                    matchingGroups.Add(group);
-                }
-            }
-        }
-
-        matchingGroups[0].Slots.Add(slot.SlotId);
-
-        if (matchingGroups.Count > 0)
-        {
-            for (int i = 1; i < matchingGroups.Count; i++)
-            {
-                matchingGroups[0].Slots.AddRange(matchingGroups[i].Slots);
-                Groups.Remove(matchingGroups[i]);
-            }
-            Groups.Remove(matchingGroups[0]);
-            Groups.Add(matchingGroups[0]);
-        }
-    }
-
-    public void CreateGroup(BoardSlot slot)
-    {
-        Group newGroup = new Group();
-        newGroup.GroupId = Groups.Count == 0 ? 0 : Groups.Max(x => x.GroupId) + 1;
-        newGroup.Color = slot.SlotColor;
-        newGroup.Slots.Add(slot.SlotId);
-
-        Groups.Add(newGroup);
-    }
-
     public void HarvestGroup(BoardSlot slot)
     {
         int count = 0;
         Group group = Groups.Where(x => x.Slots.Contains(slot.SlotId)).FirstOrDefault();
         CardColor slotColor = slot.SlotColor;
+        GameManager.Instance.ScoreManager.AddHarvestScore(group);
 
         foreach (var id in group.Slots)
         {
@@ -71,10 +33,79 @@ public class BoardGroups : MonoBehaviour
             count++;
         }
         Groups.Remove(group);
+    }
 
-        Debug.Log("Harvesting group: " + count);
-        //Call scoring function with count
-        GameManager.Instance.ScoreManager.AddHarvestScore(count, slotColor);
+
+    public void ShapeToGroup(List<GameObject> slots)
+    {
+        List<int> ShapeSlots = new();
+        List<int> SlotsByShape = new();
+        List<int> SameColorSlots = new();
+
+        foreach(var slot in slots)
+        {
+            BoardSlot _slot = slot.GetComponent<BoardSlot>();
+            SlotsByShape.AddRange(_slot.adjacentSlots);
+            ShapeSlots.Add(_slot.SlotId);
+        }
+
+        SlotsByShape = SlotsByShape.Where(x => !ShapeSlots.Contains(x)).ToList();
+  
+        CardColor groupColor = Board.GetSlotById(ShapeSlots[0]).SlotColor;
+        foreach (var id in SlotsByShape)
+        {
+            if (Board.GetSlotById(id).SlotColor == groupColor)
+            {
+                SameColorSlots.Add(id);
+            }
+        }
+        SameColorSlots = SameColorSlots.Distinct().ToList();
+
+
+        if (SameColorSlots.Count == 0)
+            CreateGroup(ShapeSlots, groupColor);
+        else
+        {
+            CreateGroup(ShapeSlots, groupColor);
+            SameColorSlots.Add(ShapeSlots[0]);
+            MergeGroups(SameColorSlots);
+        }
+    }
+
+    public void CreateGroup(List<int> slotIds, CardColor color)
+    {
+        Group newGroup = new Group();
+        newGroup.GroupId = Groups.Count == 0 ? 0 : Groups.Max(x => x.GroupId) + 1;
+        newGroup.Color = color;
+        newGroup.Slots.AddRange(slotIds);
+
+        Groups.Add(newGroup);
+    }
+
+    public void MergeGroups(List<int> slotIds)
+    {
+        List<Group> GroupsToMerge = new();
+
+        foreach (var id in slotIds)
+        {
+            Group group = Groups.Where(x => x.Slots.Contains(id)).FirstOrDefault();
+            GroupsToMerge.Add(group);
+        }
+
+        GroupsToMerge = GroupsToMerge.Distinct().ToList();
+        Debug.Log("Groups to merge " + GroupsToMerge.Count);
+
+        Group newGroup = new Group();
+        newGroup.GroupId = Groups.Count == 0 ? 0 : Groups.Max(x => x.GroupId) + 1;
+        newGroup.Color = GroupsToMerge[0].Color;
+
+        foreach (var group in GroupsToMerge)
+        {
+            newGroup.Slots.AddRange(group.Slots);
+            Groups.Remove(group);
+        }
+
+        Groups.Add(newGroup);
     }
 }
 

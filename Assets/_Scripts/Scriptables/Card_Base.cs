@@ -11,6 +11,7 @@ public class Card_Base : ScriptableObject
     public CardColor CardColor;
     public Color32 HexColor;
     public Image CardImage;
+    public Plant Plant;
 }
 
 [Serializable]

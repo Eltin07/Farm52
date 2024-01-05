@@ -6,39 +6,26 @@ using UnityEngine.EventSystems;
 
 public class DraggableCard : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public Image image;
-    public Image dragImage;
-    [HideInInspector] public Transform parentAfterDrag;
-    private Vector3 beforeDragPos;
-    private int indexAfterDrag;
-
-    private Vector3 offset = new Vector3(-144.5f, 144.5f, 10.0f);
-
+    public GameObject Shape;
+    public Card Card;
     public void OnBeginDrag(PointerEventData eventData)
     {
-        parentAfterDrag = transform.parent;
-        indexAfterDrag = transform.GetSiblingIndex();
-        beforeDragPos = transform.position;
+        Card = gameObject.GetComponent<Card>(); 
+        Quaternion ShapeRotation = Card.ShapeImage.rectTransform.rotation;
+        Shape = Instantiate(Card.Shape, Input.mousePosition, ShapeRotation, this.transform);
 
-
-        dragImage.raycastTarget = false;
-        dragImage.enabled = true;
-        image.enabled = false;
+        Card.ShapeImage.enabled = false;
     }
     public void OnDrag(PointerEventData eventData)
     {
         var screenPoint = Input.mousePosition;
-        screenPoint = screenPoint + offset;
-        transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
+
+        screenPoint = screenPoint + new Vector3(0,0,10.0f);
+        Shape.transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        transform.SetParent(parentAfterDrag);
-        transform.SetSiblingIndex(indexAfterDrag);
-        transform.position = beforeDragPos;
-
-        dragImage.raycastTarget = true;
-        dragImage.enabled = false;
-        image.enabled = true;
+        Card.ShapeImage.enabled = true;
+        Destroy(Shape);
     }
 }

@@ -18,3 +18,4 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294962479
   CardImage: {fileID: 0}
+  Plant: {fileID: 11400000, guid: f0e68efea7212ca40ab828268e49d9ae, type: 2}

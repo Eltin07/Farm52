@@ -9,6 +9,8 @@ TagManager:
   - Card
   - HarvestTool
   - Shape
+  - Discard
+  - GameBoard
   layers:
   - Default
   - TransparentFX
