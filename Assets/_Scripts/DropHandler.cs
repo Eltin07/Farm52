@@ -65,7 +65,7 @@ public class DropHandler : MonoBehaviour, IDropHandler
                 break;
             case "HarvestTool":
                 if(DroppedSlot != null)
-                    board.GroupManager.HarvestGroup(DroppedSlot);
+                    board.CropManager.HarvestCrop(DroppedSlot);
                     DroppedSlot = null;
                 break;
         }

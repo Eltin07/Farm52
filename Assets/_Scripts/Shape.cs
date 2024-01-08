@@ -21,6 +21,5 @@ public class Shape : MonoBehaviour
             if(isPlant)
                 NumberOfPlants++;
         }
-        Debug.Log(NumberOfPlants);
     }
 }

@@ -10,7 +10,6 @@ public class Plant : ScriptableObject
     public PlantType PlantType;
     public int TurnsToGrow;
     public int GrowthStages;
-
     public List<Sprite> GrowthImages = new();
 }
 

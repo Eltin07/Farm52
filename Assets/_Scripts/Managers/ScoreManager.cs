@@ -8,20 +8,21 @@ public class ScoreManager : MonoBehaviour
     public int BlueScore;
     public int RedScore;
 
+    public int WaterLevel;
     public int DeadPlants;
 
-    public void AddHarvestScore(Group crop)
+    public void AddHarvestScore(Crop crop)
     {
         int count = crop.Slots.Count;
-        switch(crop.Color)
+        switch(crop.Plant.PlantType)
         {
-            case CardColor.Yellow:
+            case PlantType.Yellow:
                 YellowScore += count;
                 break;
-            case CardColor.Blue:
-                BlueScore += count;
+            case PlantType.Blue:
+                WaterLevel += count;
                 break;
-            case CardColor.Red:
+            case PlantType.Red:
                 RedScore += count;
                 break;
             default:

@@ -10,14 +10,18 @@ public class BoardSlot : MonoBehaviour
     public int SlotId;
     public Color32 SlotHexColor;
     public CardColor SlotColor;
-    private GameObject SlotFill;
+    public GameObject SlotFill;
     private Board Board;
     public Vector2 GridCoords;
 
-    public Plant Planted;
+    //Currently Planted Plant Specs
+    public Plant Plant;
+    public int GrowthLevel;
+    public int TurnsTillGrowth;
 
-    public List<int> adjacentSlots = new();
-
+    //
+    //public List<int> adjacentSlots = new();
+    public List<BoardSlot> surroundingSlots = new();
 
 
     #endregion
@@ -50,34 +54,36 @@ public class BoardSlot : MonoBehaviour
             
             if(!badslot)
             {
-                adjacentSlots.Add(Board.grid[(int)slot.x, (int)slot.y]);
+                int id = Board.grid[(int)slot.x, (int)slot.y];
+                //adjacentSlots.Add(id);
+                surroundingSlots.Add(Board.GetSlotById(id));
             }
         }
     }
 
-    private void CheckSurrounding()
-    {
-        List<int> matchingSlotIds = new();
+    // private void CheckSurrounding()
+    // {
+    //     List<int> matchingSlotIds = new();
 
-        foreach(var slotid in adjacentSlots)
-        {
-            if(Board.Slots[slotid].SlotColor == SlotColor)
-            {
-                Debug.Log("adjacent same color");
-                matchingSlotIds.Add(slotid);
-            }
-        }
+    //     foreach(var slotid in adjacentSlots)
+    //     {
+    //         if(Board.Slots[slotid].SlotColor == SlotColor)
+    //         {
+    //             Debug.Log("adjacent same color");
+    //             matchingSlotIds.Add(slotid);
+    //         }
+    //     }
 
-        // if(matchingSlotIds.Count > 0)
-        // {
-        //     Board.GroupManager.AddToGroup(this, matchingSlotIds);
-        // }
-        // else
-        // {
-        //     Board.GroupManager.CreateGroup(this);
-        // }
+    //     // if(matchingSlotIds.Count > 0)
+    //     // {
+    //     //     Board.GroupManager.AddToGroup(this, matchingSlotIds);
+    //     // }
+    //     // else
+    //     // {
+    //     //     Board.GroupManager.CreateGroup(this);
+    //     // }
 
-    }
+    // }
 
     private Transform GetOffsetSlot()
     {
@@ -95,8 +101,13 @@ public class BoardSlot : MonoBehaviour
     {
         GetAdjacentSlots();
         SlotFill = Instantiate(Board.SlotFillBase, this.transform);
-        SlotFill.GetComponent<Image>().color = plant.Color; 
-        Planted = plant;
+        Image image = SlotFill.GetComponent<Image>();
+        image.color = plant.Color;
+        image.sprite = plant.GrowthImages[0];
+        Plant = plant;
+
+        GrowthLevel = 0;
+        TurnsTillGrowth = plant.TurnsToGrow;
     }
 
 

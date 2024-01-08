@@ -23,7 +23,7 @@ public class BoardGroups : MonoBehaviour
         int count = 0;
         Group group = Groups.Where(x => x.Slots.Contains(slot.SlotId)).FirstOrDefault();
         CardColor slotColor = slot.SlotColor;
-        GameManager.Instance.ScoreManager.AddHarvestScore(group);
+        //GameManager.Instance.ScoreManager.AddHarvestScore(group);
 
         foreach (var id in group.Slots)
         {
@@ -45,7 +45,7 @@ public class BoardGroups : MonoBehaviour
         foreach(var slot in slots)
         {
             BoardSlot _slot = slot.GetComponent<BoardSlot>();
-            SlotsByShape.AddRange(_slot.adjacentSlots);
+            //SlotsByShape.AddRange(_slot.adjacentSlots);
             ShapeSlots.Add(_slot.SlotId);
         }
 
@@ -93,7 +93,6 @@ public class BoardGroups : MonoBehaviour
         }
 
         GroupsToMerge = GroupsToMerge.Distinct().ToList();
-        Debug.Log("Groups to merge " + GroupsToMerge.Count);
 
         Group newGroup = new Group();
         newGroup.GroupId = Groups.Count == 0 ? 0 : Groups.Max(x => x.GroupId) + 1;
